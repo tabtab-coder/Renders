@@ -1,0 +1,81 @@
+<div class="home" *ngIf="user">
+  <div class="home-card banner">Welcome back! {{ user.username }}.</div>
+  <div class="home-card room">
+    <span *ngIf="user.rooms.length > 0; else createRoom">
+      <div class="flex items-center justify-between my-2">
+        <h2>Your rooms</h2>
+        <p-selectButton
+          [options]="roomOptions"
+          [(ngModel)]="manageRooms"
+          name="fieldName"
+          ngDefaultControl
+          optionLabel="name"
+          optionValue="value"
+        ></p-selectButton>
+      </div>
+
+      <div class="grid grid-cols-4">
+        <p-card
+          *ngFor="let room of user.rooms"
+          class="cursor-pointer"
+          (click)="navigateToRoom(room.id)"
+          [attr.id]="room.id"
+        >
+          <ng-template pTemplate="header">
+            <img
+              alt="Card"
+              src="https://primefaces.org/cdn/primeng/images/usercard.png"
+            />
+          </ng-template>
+          <ng-template pTemplate="content">{{ room.name }}</ng-template>
+        </p-card>
+        <p-button
+          icon="pi pi-plus"
+          styleClass="p-button-rounded"
+          class="flex items-center justify-center m-8"
+          routerLink="/create-room"
+        ></p-button>
+      </div>
+    </span>
+    <ng-template #createRoom>
+      <div class="flex flex-col h-full">
+        <span>You don't have a room yet.</span>
+        <button pButton routerLink="/create-room">Create a room</button>
+      </div>
+    </ng-template>
+  </div>
+  <div class="home-card room">
+    <span *ngIf="user.participatingRooms.length > 0; else noParticipatingRooms">
+      <div class="flex items-center justify-between">
+        <h5>Your friends' rooms</h5>
+      </div>
+
+      <div class="grid grid-cols-4">
+        <p-card
+          *ngFor="let room of user.participatingRooms"
+          class="cursor-pointer"
+          (click)="navigateToRoom(room.id)"
+          [attr.id]="room.id"
+        >
+          <ng-template pTemplate="header">
+            <img
+              alt="Card"
+              src="https://primefaces.org/cdn/primeng/images/usercard.png"
+            />
+          </ng-template>
+          <ng-template pTemplate="content">{{ room.name }}</ng-template>
+          <ng-template pTemplate="footer">
+            <span class="flex flex-row-reverse mr-3">
+              {{ room.owner.username }}
+            </span>
+          </ng-template>
+        </p-card>
+      </div>
+    </span>
+    <ng-template #noParticipatingRooms>
+      <div class="flex flex-col">
+        <span>No one invited you to their rooms yet :(</span>
+      </div>
+    </ng-template>
+  </div>
+</div>

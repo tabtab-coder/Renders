@@ -1,0 +1,30 @@
+<div
+  class="navbar transition-all delay-100 duration-300"
+  [ngClass]="menuOpened ? 'opened' : 'closed'"
+>
+  <button (click)="menuOpened = !menuOpened" class="my-8">
+    <fa-icon class="fa-2xl text-white" [icon]="faMenuClosed"></fa-icon>
+  </button>
+  <div class="flex flex-col h-full justify-between">
+    <div>
+      <a
+        class="flex ml-4 p-3 rounded-l-lg mb-3 cursor-pointer text-white transition ease-in-out delay-100 hover:bg-secondary-variant"
+        [ngClass]="{ 'justify-center': !menuOpened }"
+        *ngFor="let route of routes"
+        [routerLink]="route.link"
+        [routerLinkActive]="'active'"
+      >
+        <fa-icon class="text-white" [icon]="route.icon"></fa-icon>
+        <label [ngClass]="{ hidden: !menuOpened }" class="ml-4">{{
+          route.name
+        }}</label>
+      </a>
+    </div>
+    <button (click)="signOut()" class="my-8">
+      <fa-icon class="text-white" [icon]="signOutIcon"></fa-icon>
+      <label [ngClass]="{ hidden: !menuOpened }" class="ml-4 text-white"
+        >Sign out</label
+      >
+    </button>
+  </div>
+</div>

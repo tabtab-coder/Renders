@@ -1,0 +1,49 @@
+.invite-user-input {
+  background-color: theme("colors.indigo.100");
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+  padding: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+
+  ::ng-deep {
+    .p-inputtext {
+      border: 0;
+      background: inherit;
+      width: 70%;
+    }
+
+    .p-inputtext:enabled:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+.chip {
+  width: max-content;
+  background: theme("colors.indigo.200");
+  padding: 0.25rem 0.5rem;
+  border-radius: 30px;
+  border: 2px solid theme("colors.indigo.400");
+  margin: 1rem 0.25rem;
+
+  ::ng-deep {
+    .pi {
+      font-size: 0.7rem;
+      font-weight: bolder;
+      color: theme("colors.indigo.400");
+    }
+
+    .p-button.p-button-icon-only.p-button-rounded {
+      height: 1rem;
+      background: inherit;
+      border: 2px solid theme("colors.indigo.400");
+    }
+
+    .p-button.p-button-icon-only {
+      width: 1rem;
+      padding: 0.75rem;
+    }
+  }
+}

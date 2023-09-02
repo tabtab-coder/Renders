@@ -1,0 +1,31 @@
+<div *ngIf="room" class="p-9 manage-room">
+  <span class="back-button my-3">
+    <button
+      pButton
+      class="p-button-rounded p-button-text bg-inherit text-indigo-700 p-0 back-button text-xl"
+      icon="pi pi-angle-left text-5xl"
+      (click)="back()"
+    >
+      Back
+    </button>
+  </span>
+
+  <small class="p-error" [ngClass]="{ invisible: !dirty }"
+    >You have unsaved changes.</small
+  >
+  <p-toast></p-toast>
+  <div class="flex justify-between">
+    <h1>Managing room {{ room.name }}</h1>
+    <p-button
+      label="Save"
+      (click)="save()"
+      [disabled]="!dirty || saving"
+    ></p-button>
+  </div>
+
+  <app-manage-participants
+    [currentUser]="currentUser"
+    [(invitedUsers)]="invitedUsers"
+    (invitedChanges)="invitedUsersChange($event)"
+  ></app-manage-participants>
+</div>

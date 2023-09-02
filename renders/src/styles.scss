@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bolder;
+}
+
+.align-single-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-button-loading-icon {
+  margin-right: 0.5rem;
+}
+
+.p-multiselect {
+  width: 100%;
+}
+
+ul {
+  list-style: circle;
+}

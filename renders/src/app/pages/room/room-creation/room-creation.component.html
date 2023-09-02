@@ -1,0 +1,94 @@
+<div class="room-creation">
+  <h1>Draw the floor plan!</h1>
+  <p>
+    Draw a rectangle at a time, up to 3, to make the room shape that you want.
+  </p>
+  <div class="my-3 flex items-center">
+    Room name:
+    <div class="flex flex-col ml-3 room-name-input">
+      <input
+        type="text"
+        pInputText
+        placeholder="Room name here"
+        [ngClass]="createFailed ? 'ng-invalid ng-dirty' : ''"
+        [(ngModel)]="roomName"
+      />
+      <small class="p-error h-5">{{ errorMessage }}</small>
+    </div>
+  </div>
+  <!-- <button
+    pButton
+    [disabled]="floorPlan.length >= 3 || !(isLinked && hasDrawn && valid)"
+    (click)="saveCurrentRect()"
+  >
+    Confirm this rectangle
+  </button> -->
+  <p-button [disabled]="floorPlan.length === 0" (click)="undoLastRect()"
+    >Undo</p-button
+  >
+  <p class="p-error" [ngClass]="{ hidden: isLinked }">
+    Rooms must be linked to at least one other.
+  </p>
+  <p class="p-error" [ngClass]="{ hidden: valid }">Invalid positioning.</p>
+  <canvas
+    #canvas
+    class="floor-box"
+    [ngClass]="{ 'block-input': roomLoading }"
+    [attr.width]="canvasWidth"
+    [attr.height]="canvasHeight"
+    (mousedown)="mouseDown($event)"
+    (mouseup)="mouseUp($event)"
+    (mousemove)="mouseMove($event)"
+    (mouseout)="mouseOut($event)"
+  ></canvas>
+  <div>
+    <div class="m-7">
+      <app-manage-participants
+        [currentUser]="currentUser"
+        [invitedUsers]="invitedUsers"
+        (invitedChanges)="invitedUsersChange($event)"
+      ></app-manage-participants>
+    </div>
+
+    <div class="flex">
+      <button
+        pButton
+        [loading]="roomLoading"
+        [disabled]="floorPlan.length === 0"
+        (click)="createRoom()"
+      >
+        Create room!
+      </button>
+    </div>
+
+    <div class="room-dimensions">
+      <label>Scale room size (Current first room's dimensions): </label>
+      <p-inputNumber
+        mode="decimal"
+        suffix=" m"
+        disabled="true"
+        [(ngModel)]="room2dDimension.width * scale"
+      ></p-inputNumber>
+      <p-inputNumber
+        mode="decimal"
+        suffix=" m"
+        disabled="true"
+        [(ngModel)]="room2dDimension.height * scale"
+      ></p-inputNumber>
+      <label>Scale: </label>
+      <p-inputNumber
+        mode="decimal"
+        [min]="0.01"
+        [max]="50"
+        [(ngModel)]="scale"
+      ></p-inputNumber>
+    </div>
+    <p class="p-error" [ngClass]="{ hidden: floorPlan.length < 3 }">
+      There can only be at most 3.
+    </p>
+
+    <p [ngClass]="{ hidden: floorPlan.length > 0 }">
+      You need at least one room to proceed!
+    </p>
+  </div>
+</div>

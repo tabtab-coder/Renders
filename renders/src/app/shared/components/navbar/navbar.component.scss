@@ -1,0 +1,26 @@
+.navbar {
+  background-color: theme("colors.indigo.900");
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+
+  &.closed {
+    width: 75px;
+    min-width: 75px;
+  }
+
+  &.opened {
+    width: 300px;
+  }
+
+  .active {
+    background-color: white;
+    color: black;
+
+    fa-icon {
+      // color: theme("colors.indigo.900");
+      color: black;
+    }
+  }
+}

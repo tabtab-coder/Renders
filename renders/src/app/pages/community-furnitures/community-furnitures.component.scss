@@ -1,0 +1,37 @@
+.community-furniture {
+  padding: 2vw;
+
+  model-viewer {
+    width: 80vw;
+    height: 70vh;
+  }
+
+  .furniture-snapshots {
+    width: 5vw;
+    border-radius: 50%;
+    margin: 3px;
+    border: 2px solid theme("colors.indigo.300");
+  }
+
+  .furniture-bar {
+    display: flex;
+    justify-content: space-between;
+    background-color: theme("colors.indigo.100");
+    padding: 5px;
+    border-radius: 12px;
+
+    .snapshots {
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+      min-height: 5vw;
+    }
+
+    ::ng-deep {
+      .p-inputtext {
+        margin: 0.5rem;
+        width: 20rem;
+      }
+    }
+  }
+}

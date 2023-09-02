@@ -1,0 +1,57 @@
+.home {
+  padding-top: 4rem;
+  width: 90vw;
+
+  &-card {
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 4rem;
+  }
+
+  .banner {
+    background-image: url("../../../assets/bg2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff;
+  }
+
+  .room {
+    background-image: url("../../../assets/bg2.jpg"),
+      linear-gradient(
+        to right,
+        rgba(166, 154, 255, 0.6),
+        rgba(166, 154, 255, 0.2)
+      );
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0;
+    color: #ffffff;
+    min-height: 20vh;
+
+    button {
+      width: max-content;
+      margin: auto;
+    }
+
+    ::ng-deep {
+      .p-card {
+        margin: 0.3rem;
+
+        .p-card-body {
+          padding: 0;
+        }
+
+        .p-card-content {
+          padding: 0.4rem;
+        }
+
+        .p-card-footer {
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  .furnitures {
+  }
+}

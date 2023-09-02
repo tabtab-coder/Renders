@@ -1,0 +1,27 @@
+<a-entity
+  [attr.id]="furnitureId"
+  draggable
+  spinnable
+  raycaster="objects: .collidable"
+  attr.position="{{ furniture.position.x }} {{ furniture.position.y }} {{
+    furniture.position.z
+  }}"
+  attr.rotation="{{ furniture.rotation.x }} {{ furniture.rotation.y }} {{
+    furniture.rotation.z
+  }}"
+  attr.scale="{{ furniture.scale.x }} {{ furniture.scale.y }} {{
+    furniture.scale.z
+  }}"
+  shadow="{ false }"
+  attr.gltf-model="#{{ furniture.furnitureType.model }}"
+  natural-size="width: 1"
+  visible
+  class="cantap"
+  (draggedFurniture)="updateFurniturePosition($event)"
+  (rotatedFurniture)="updateFurnitureRotation($event)"
+  (scaledFurniture)="updateFurnitureScale($event)"
+  (updatingFurnitureStart)="updatingFurnitureStart($event)"
+  (updatingFurnitureEnd)="updatingFurnitureEnd($event)"
+  (targetFurniture)="targetingFurniture($event)"
+  material="opacity: 1"
+></a-entity>

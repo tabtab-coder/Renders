@@ -1,0 +1,30 @@
+<div class="community-furniture">
+  <model-viewer
+    *ngIf="selectedFurniture"
+    camera-controls
+    touch-action="pan-y"
+    [src]="selectedFurniture.modelPath"
+    [poster]="selectedFurniture.snapshotPath"
+    alt="A 3D model of cat"
+    auto-rotate
+    rotation-per-second="30deg"
+  >
+  </model-viewer>
+  <div class="furniture-bar">
+    <div class="snapshots">
+      <img
+        (click)="changeFurniture(f)"
+        class="furniture-snapshots cursor-pointer aspect-square"
+        *ngFor="let f of furniture"
+        [src]="f.snapshotPath"
+      />
+    </div>
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="searchFurniture"
+      (input)="search()"
+      placeholder="Search furniture"
+    />
+  </div>
+</div>

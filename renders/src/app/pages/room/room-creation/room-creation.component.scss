@@ -1,0 +1,33 @@
+.room-creation {
+  padding: 1.5rem;
+  canvas {
+    border: 1px solid theme("colors.indigo.500");
+    border-radius: 30px;
+  }
+
+  .block-input {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .room-name-input {
+    input {
+      border: 0;
+      border-bottom: 1px solid theme("colors.indigo.500");
+      border-radius: 0;
+    }
+  }
+
+  .room-dimensions {
+    ::ng-deep {
+      .p-inputnumber-input {
+        width: 5.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  button {
+    margin: 1rem;
+  }
+}

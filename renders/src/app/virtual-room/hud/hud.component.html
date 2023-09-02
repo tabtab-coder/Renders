@@ -1,0 +1,110 @@
+<div class="hud">
+  <div class="flex">
+    <div class="menu duration-300" [ngClass]="{ hidden: menuClosed }">
+      <span class="p-input-icon-right w-100">
+        <i class="pi pi-search"></i>
+        <input
+          type="text"
+          pInputText
+          placeholder="Search"
+          [(ngModel)]="searchItem"
+          (input)="search()"
+        />
+      </span>
+      <div class="flex flex-wrap">
+        <img
+          *ngFor="let furniture of furnitures"
+          class="cursor-pointer snapshot"
+          (click)="selectFurniture(furniture)"
+          [src]="furniture.snapshotPath"
+        />
+      </div>
+    </div>
+
+    <div
+      class="trigger bg-plain/75 hover:bg-plain"
+      (click)="menuClosed = !menuClosed"
+    >
+      <model-viewer
+        [src]="currentFurniture.modelPath"
+        [poster]="currentFurniture.snapshotPath"
+        alt="A 3D model of cat"
+        disable-zoom
+        auto-rotate
+        rotation-per-second="30deg"
+      >
+      </model-viewer>
+      <fa-icon [icon]="rightArrow" class="fa-2xl"></fa-icon>
+    </div>
+  </div>
+
+  <span class="m-2">
+    <p-button class="p-button-rounded h-10 m-1" (click)="back()">
+      Back
+    </p-button>
+    <!-- <p-button class="p-button-rounded h-10 m-1" (click)="save()">
+      Save
+    </p-button> -->
+    <p-button
+      (click)="showHelp()"
+      label="Controls"
+      class="p-button-rounded h-10 m-1"
+    ></p-button>
+    <p-dialog
+      header="Controls"
+      [(visible)]="helpVisible"
+      position="bottom-right"
+      [style]="{
+        width: '20vw',
+        minWidth: 'max-content',
+        minHeight: 'max-content'
+      }"
+    >
+      <div class="controls">
+        <div class="min-h-max">
+          <h6 class="mr-4">Movement:</h6>
+          <label>W</label>
+          <label>A</label>
+          <label>S</label>
+          <label>D</label>
+          or
+          <label><fa-icon [icon]="rightArrow"></fa-icon></label>
+          <label><fa-icon [icon]="upArrow"></fa-icon></label>
+          <label><fa-icon [icon]="leftArrow"></fa-icon></label>
+          <label><fa-icon [icon]="downArrow"></fa-icon></label>
+        </div>
+        <div>
+          <h6 class="mr-4">(De)select item:</h6>
+          <label><fa-icon [icon]="mouse"></fa-icon></label> Left click
+        </div>
+        <div>
+          <h6 class="mr-4">Look around:</h6>
+          <label><fa-icon [icon]="mouse"></fa-icon></label> Right click hold and
+          drag
+        </div>
+        <div>
+          <h6 class="mr-4">Move item:</h6>
+          <label><fa-icon [icon]="mouse"></fa-icon></label> Right click hold and
+          drag
+        </div>
+        <div>
+          <h6 class="mr-4">Rotate item:</h6>
+          <label><fa-icon [icon]="mouse"></fa-icon></label> Left click hold and
+          drag
+        </div>
+        <div>
+          <h6 class="mr-4">Delete item:</h6>
+          <label><fa-icon [icon]="backspace"></fa-icon></label> on selected item
+        </div>
+      </div>
+    </p-dialog>
+
+    <!-- <p *ngFor="let player of players | keyvalue">{{ player.value }}</p> -->
+    <p>Users:</p>
+    <p *ngFor="let player of players | keyvalue">
+      <span [ngStyle]="{ color: player?.value?.color }">
+        {{ player?.value?.username }}
+      </span>
+    </p>
+  </span>
+</div>

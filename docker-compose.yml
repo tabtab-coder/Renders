@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - ./vhost:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
+  nginx-proxy-acme:
+    depends_on:
+      - "nginx-proxy"
+    image: nginxproxy/acme-companion
+    container_name: nginx-proxy-acme
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - ./vhost:/etc/nginx/vhost.d
+      - ./html:/usr/share/nginx/html
+      - ./acme:/etc/acme.sh
+    environment:
+      - DEFAULT_EMAIL=
+  db:
+    image: postgres:15.2
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+    volumes:
+      - db:/var/lib/postgresql/data
+  frontend:
+    build:
+      context: .
+      dockerfile: ./renders/frontend.dockerfile
+    image: frontend-run:latest
+    expose:
+      - 80
+    environment:
+      - VIRTUAL_HOST=renders-design.studio,www.renders-design.studio
+      - LETSENCRYPT_HOST=renders-design.studio,www.renders-design.studio
+  backend:
+    build:
+      context: .
+      dockerfile: ./renders-backend/backend.dockerfile
+    image: backend-run:latest
+    expose:
+      - 3000
+    environment:
+      - VIRTUAL_HOST=api.renders-design.studio
+      - LETSENCRYPT_HOST=api.renders-design.studio
+    env_file: ./renders-backend/.env
+volumes:
+  db:
+    driver: local

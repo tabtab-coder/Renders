@@ -1,0 +1,20 @@
+.manage-room {
+  width: 90vw;
+
+  ::ng-deep {
+    .back-button {
+      .p-button {
+        padding: 0;
+      }
+
+      font-size: 1.25rem;
+      font-weight: 600;
+
+      margin: 1rem 0rem;
+    }
+
+    .pi {
+      font-size: 2rem;
+    }
+  }
+}

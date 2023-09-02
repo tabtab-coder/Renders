@@ -1,0 +1,28 @@
+<h3>Invite your friends!</h3>
+<div class="invite-user-input">
+  <input
+    type="text"
+    pInputText
+    [(ngModel)]="searchUser"
+    placeholder="Enter a usename"
+  />
+  <p-button
+    (click)="findUser()"
+    label="Add your friend"
+    [disabled]="searchUser.length === 0"
+  ></p-button>
+</div>
+<small class="p-error">{{ errorMessage }}</small>
+<div class="flex">
+  <div class="chip" *ngFor="let user of invitedUsers | keyvalue">
+    <span class="mr-2">{{ user.value.username }}</span>
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-times"
+      class="p-button-rounded"
+      (click)="removeUser(user.key)"
+    ></button>
+  </div>
+</div>

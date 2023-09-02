@@ -1,0 +1,120 @@
+<span *ngIf="availableFurnituresLoaded">
+  <app-hud
+    [furnitures]="availableFurnitures"
+    [currentFurniture]="currentFurniture"
+    [players]="states"
+    (changeFurniture)="changeFurniture($event)"
+    (searchFurniture)="searchFurniture($event)"
+    (saveFurniture)="saveFurniture($event)"
+    (disconnect)="disconnect()"
+  ></app-hud>
+</span>
+
+<div [ngClass]="{ invisible: floorPlan.length === 0 }">
+  <a-scene #tapscene fog="type: exponential; color: #c9f7ff; density: 0.01;">
+    <!-- We can define assets here to be loaded when A-Frame initializes -->
+    <a-assets>
+      <img id="floor" src="assets/floor.jpeg" />
+      <a-asset-item
+        *ngFor="let furniture of toLoadFurnitures"
+        src="assets/cat.gltf"
+        [id]="furniture.model"
+        [attr.src]="furniture.modelPath"
+      ></a-asset-item>
+    </a-assets>
+
+    <!-- The raycaster will emit mouse events on scene objects specified with the cantap class -->
+    <a-camera
+      id="camera"
+      #camera
+      track-player-position
+      look-controls
+      wasd-controls
+      position="0 1.6 0"
+      raycaster="objects: .cantap;"
+      cursor="
+        fuse: false;
+        rayOrigin: mouse;"
+      (updatePlayerPosition)="updatePlayerPosition($event)"
+    >
+    </a-camera>
+
+    <!-- Adding the cantap class allows the ground to be clicked -->
+    <a-box
+      *ngFor="let floor of floorPlan"
+      class="cantap collidable ground"
+      attr.scale="{{ floor.width }} 2 {{ floor.height }}"
+      attr.position="{{ floor.x }} -0.99 {{ floor.y }}"
+      src="#floor"
+      (click)="placeFurniture($event)"
+      (mousedown)="mouseDown($event)"
+      material="roughness: 1; metalness: 0"
+    ></a-box>
+
+    <!-- users -->
+    <a-entity *ngFor="let state of otherPlayersStates | keyvalue">
+      <a-box
+        [attr.id]="state?.value?.id"
+        attr.material="color: {{ state?.value?.color }}"
+        scale="0.5 2.6 0.5"
+        attr.position="{{ state?.value?.position.x }} {{
+          state?.value?.position.y
+        }} {{ state?.value?.position.z }}"
+        attr.rotation="{{ state?.value?.rotation.x }} {{
+          state?.value?.rotation.y
+        }} {{ state?.value?.rotation.z }}"
+      ></a-box>
+    </a-entity>
+
+    <!-- users selection indicators -->
+    <a-entity *ngFor="let state of otherPlayersStates | keyvalue">
+      <a-circle
+        attr.id="circle-{{ state?.value?.id }}"
+        attr.material="color: {{ state?.value?.color }}"
+        radius="1"
+        attr.position="{{
+          furnitures.get(state?.value?.interactingFurniture)?.position.x
+        }} 0.1 {{
+          furnitures.get(state?.value?.interactingFurniture)?.position.z
+        }}"
+        rotation="-90 0 0"
+      ></a-circle>
+    </a-entity>
+
+    <a-entity
+      light="type: hemisphere; color: #ffffff; groundColor: #000000; intensity: 0.8;"
+      position="25 8 -25"
+    ></a-entity>
+    <a-entity
+      light="type: hemisphere; color: #ffffff; groundColor: #000000; intensity: 0.5;"
+      position="25 8 25"
+    ></a-entity>
+    <a-entity
+      light="type: ambient; color: #ffffff; intensity: 0.3;"
+      position="25 8 -25"
+    ></a-entity>
+    <a-sky color="#a4bede"></a-sky>
+
+    <a-entity
+      *ngFor="let furniture of furnitures | keyvalue; trackBy: trackFurniture"
+      app-furniture
+      (moveFurniture)="updateFurniture($event)"
+      (interactingFurniture)="updatePlayerInteractFurniture($event)"
+      (targetFurniture)="targetFurniture($event)"
+      [furnitureId]="furniture.key"
+      [furniture]="furniture.value"
+      [isTargeted]="targetFurniture === furniture.id"
+    ></a-entity>
+    <a-circle
+      attr.visibility="{{ targetedFurniture !== null }}"
+      attr.material="color: {{ userColor }}"
+      radius="1"
+      attr.position="{{ furnitures.get(targetedFurniture)?.position.x }} 0.1 {{
+        furnitures.get(targetedFurniture)?.position.z
+      }}"
+      rotation="-90 0 0"
+    ></a-circle>
+  </a-scene>
+</div>
+
+<div>Loading room..</div>
